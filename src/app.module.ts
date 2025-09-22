@@ -8,6 +8,7 @@ import { StudentsModule } from './students/students.module';
 import { StudentsController } from './students/students.controller';
 import { StudentsService } from './students/students.service';
 import { PaymentsModule } from './payments/payments.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { PaymentsModule } from './payments/payments.module';
     }),
     StudentsModule,
     PaymentsModule,
+    AuthModule,
   ],
   controllers: [AppController, StudentsController],
   providers: [AppService, StudentsService],

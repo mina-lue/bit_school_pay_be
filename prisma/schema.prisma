@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id String @id @default(uuid())
+  firstName String 
+  middleName String 
+  lastName String
+  phone String?
+  email String?
+  class String
+  grade Int
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  payments Payment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id String @id @default(uuid())
+  type PaymentType
+  amount Int
+  studentId String
+  payerId String
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  paidBy BitUser @relation(fields: [payerId], references: [id], onDelete: Cascade)
+  paidAt DateTime @default(now())
+}
+
+enum PaymentType {
+  MONTHLY_FEE
+  BUS_FEE
+  OTHERS
+}
+
+model School {
+  id String @id @default(uuid())
+  name String
+  email String
+  students Student[]
+}
+
+model BitUser {
+  id String @id @default(uuid())
+  firstName String
+  middleName String
+  LastName String
+  email String
+  password String
+  payments Payment[]
+}

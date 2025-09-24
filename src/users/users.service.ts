@@ -8,6 +8,6 @@ export class UsersService {
   }
 
   register(user: CreateUserDto): User {
-    return { id: '', firstName: user.firstName };
+    return { id: 'id', firstName: user.firstName };
   }
 }

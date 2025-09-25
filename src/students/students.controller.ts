@@ -7,7 +7,7 @@ export class StudentsController {
   public constructor(private studentService: StudentsService) {}
 
   @Get()
-  getAll(): Student[] {
+  getAll(): Promise<Student[]> {
     return this.studentService.getAll();
   }
 

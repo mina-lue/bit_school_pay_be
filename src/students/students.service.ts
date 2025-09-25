@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { RegisterStudentDto, Student } from './domain/student.entity';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class StudentsService {
-  getAll(): Student[] {
-    return [];
+  constructor(private prisma: PrismaService) {}
+
+  async getAll(): Promise<Student[]> {
+    return await this.prisma.student.findMany();
   }
 
   register(student: RegisterStudentDto): Student {

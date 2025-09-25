@@ -20,6 +20,7 @@ model Student {
   schoolId String
   school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   payments Payment[]
+  subscribed Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

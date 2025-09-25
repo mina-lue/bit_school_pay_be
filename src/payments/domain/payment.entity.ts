@@ -1,11 +1,15 @@
 import { Student } from 'src/students/domain/student.entity';
+import { User } from 'src/users/domain/user.entity';
 
 export interface Payment {
   id: string;
-  amount: number;
-  madeAt: Date;
   type: PaymentType;
+  amount: number;
+  studentId: string;
+  payerId: string;
   student: Student;
+  paidBy: User;
+  paidAt: Date;
 }
 
 enum PaymentType {
@@ -19,4 +23,5 @@ export interface RegisterPaymentDto {
   madeAt: Date;
   type: PaymentType;
   student: Student;
+  paidBy: User;
 }

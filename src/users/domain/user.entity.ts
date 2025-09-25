@@ -1,3 +1,5 @@
+import { Payment } from 'src/payments/domain/payment.entity';
+
 export interface CreateUserDto {
   firstName: string;
   /*
@@ -12,4 +14,9 @@ export interface CreateUserDto {
 export interface User {
   id: string;
   firstName: string;
+  middleName: string;
+  LastName: string;
+  email: string;
+  password: string;
+  payments: Payment[];
 }

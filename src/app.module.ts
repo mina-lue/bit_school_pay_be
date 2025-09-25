@@ -10,6 +10,7 @@ import { StudentsService } from './students/students.service';
 import { PaymentsModule } from './payments/payments.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
@@ -23,6 +24,6 @@ import { UsersModule } from './users/users.module';
     UsersModule,
   ],
   controllers: [AppController, StudentsController],
-  providers: [AppService, StudentsService],
+  providers: [AppService, StudentsService, PrismaService],
 })
 export class AppModule {}

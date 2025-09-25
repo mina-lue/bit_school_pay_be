@@ -7,9 +7,20 @@ export class PaymentsService {
     return {
       id: '1',
       amount: paymentDto.amount,
-      madeAt: paymentDto.madeAt,
+      paidAt: paymentDto.madeAt,
       type: paymentDto.type,
       student: paymentDto.student,
+      studentId: '',
+      payerId: '',
+      paidBy: {
+        firstName: '',
+        LastName: '',
+        middleName: '',
+        password: '',
+        payments: [],
+        email: '',
+        id: '',
+      },
     };
   }
   getAll(): Payment[] {

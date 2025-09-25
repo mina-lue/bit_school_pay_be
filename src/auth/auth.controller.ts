@@ -3,7 +3,7 @@ import { Body, Controller, Post, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from 'src/users/users.service';
-import { CreateUserDto, User } from 'src/users/domain/user.entity';
+//import { CreateUserDto, User } from 'src/users/domain/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -12,11 +12,12 @@ export class AuthController {
     private userService: UsersService,
   ) {}
 
+  /*
   @Post('register')
   createUser(@Body() dto: CreateUserDto): User {
     return this.userService.register(dto);
     //return await this.userService.register(dto);
-  }
+  } */
 
   @Post('login')
   // await

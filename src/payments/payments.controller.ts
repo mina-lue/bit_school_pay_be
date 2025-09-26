@@ -7,12 +7,17 @@ export class PaymentsController {
   public constructor(private paymentsService: PaymentsService) {}
 
   @Get()
-  getAll(): Payment[] {
+  async getAll(): Promise<Payment[]> {
     return this.paymentsService.getAll();
   }
 
-  @Post()
-  register(@Body() paymentDto: RegisterPaymentDto): Payment {
+  @Get('/my_school')
+  getMySchoolRevenues() {
+    //TODO  implement this!
+  }
+
+  @Post('/new')
+  register(@Body() paymentDto: RegisterPaymentDto): Promise<Payment> {
     return this.paymentsService.register(paymentDto);
   }
 }

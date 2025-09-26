@@ -20,6 +20,7 @@ export class AppService {
       data: {
         name: school.name,
         email: school.email,
+        principalId: school.principalId,
       },
     });
   }

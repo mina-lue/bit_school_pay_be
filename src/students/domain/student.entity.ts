@@ -1,6 +1,3 @@
-import { School } from 'src/domain/school.entity';
-import { Payment } from 'src/payments/domain/payment.entity';
-
 export interface Student {
   id: string;
   firstName: string;
@@ -11,9 +8,7 @@ export interface Student {
   subscribed: boolean;
   phone?: string;
   email?: string;
-  school: School;
   schoolId: string;
-  payments: Payment[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -24,5 +19,7 @@ export interface RegisterStudentDto {
   lastName: string;
   grade: number;
   class: string;
+  phone?: string;
+  email?: string;
   schoolId: string;
 }

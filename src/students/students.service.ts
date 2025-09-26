@@ -20,6 +20,8 @@ export class StudentsService {
         class: student.class,
         grade: student.grade,
         subscribed: false,
+        phone: student?.phone,
+        email: student?.email,
         schoolId: student.schoolId,
       },
     });

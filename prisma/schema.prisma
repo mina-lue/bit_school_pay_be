@@ -31,6 +31,8 @@ model Payment {
   amount Int
   studentId String
   payerId String
+  schoolId String 
+  school School @relation(fields: [schoolId], references: [id]) 
   student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   paidBy BitUser @relation(fields: [payerId], references: [id], onDelete: Cascade)
   paidAt DateTime @default(now())
@@ -47,14 +49,19 @@ model School {
   name String
   email String
   students Student[]
+  payments Payment[]
+  principalId String @unique
+  principal BitUser @relation(fields: [principalId], references: [id], onDelete: Cascade)
 }
 
 model BitUser {
   id String @id @default(uuid())
   firstName String
   middleName String
-  LastName String
+  lastName String
   email String
+  phone String
   password String
   payments Payment[]
+  school School? 
 }

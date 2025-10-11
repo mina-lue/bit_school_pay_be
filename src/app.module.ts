@@ -11,6 +11,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PrismaService } from './prisma.service';
+import { TelebirrModule } from './telebirr/telebirr.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PrismaService } from './prisma.service';
     PaymentsModule,
     AuthModule,
     UsersModule,
+    TelebirrModule,
   ],
   controllers: [AppController, StudentsController],
   providers: [AppService, StudentsService, PrismaService],

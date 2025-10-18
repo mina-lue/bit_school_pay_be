@@ -6,12 +6,6 @@ import { CreateOrderDataDto } from './dto/order.create';
 export class TelebirrController {
   constructor(private readonly telebirrService: TelebirrService) {}
 
-  @Get('token')
-  async getToken() {
-    const token = await this.telebirrService.getToken();
-    return { token };
-  }
-
   @Get('initiate')
   async initiatePayment(@Body() createOrderData: CreateOrderDataDto) {
     const response = await this.telebirrService.initiatePayment(

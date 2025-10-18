@@ -3,16 +3,13 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import * as https from 'https';
 import { FabricTokenResponseDto } from './dto/token.response';
-import {
-  CreateOrderRequest,
-  CreateOrderResponse,
-  RawRequestDto,
-} from './dto/order.create';
+import { CreateOrderRequest } from './dto/order.create';
 import {
   createNonceStr,
   createTimeStamp,
   signRequestObject,
 } from './misc/tools';
+import { CreateOrderResponseDto } from './dto/order.response';
 
 @Injectable()
 export class TelebirrService {
@@ -47,7 +44,7 @@ export class TelebirrService {
     return response.data.token;
   }
 
-  async initiatePayment(title: string, amount: number) {
+  async initiatePayment(title: string, amount: number): Promise<string> {
     // 1️⃣ Get Fabric token
     const fabricToken = await this.getToken();
 
@@ -61,7 +58,7 @@ export class TelebirrService {
     const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
     const { data: createOrderResult } = await firstValueFrom(
-      this.httpService.post<CreateOrderResponse>(
+      this.httpService.post<CreateOrderResponseDto>(
         `${this.baseUrl}/payment/v1/inapp/createOrder`,
         reqObject,
         {
@@ -75,12 +72,27 @@ export class TelebirrService {
       ),
     );
 
-    // 4️⃣ Extract prepay_id
-    const prepayId = createOrderResult.biz_content.prepay_id;
+    // 4️⃣ build checkout URL
+
+    const checkoutUrl =
+      'https://developerportal.ethiotelebirr.et:38443/payment/web/paygate?' +
+      'appid=' +
+      this.merchantAppId +
+      '&merch_code=' +
+      this.merchantCode +
+      '&nonce_str=' +
+      createOrderResult.nonce_str +
+      '&prepay_id=' +
+      createOrderResult.biz_content.prepay_id +
+      '&timestamp=' +
+      createTimeStamp() +
+      '&sign=' +
+      createOrderResult.sign +
+      '&sign_type=SHA256WithRSA';
 
     // 5️⃣ Build raw request string
-    const rawRequest = this.createRawRequest(prepayId);
-    return rawRequest;
+    // const rawRequest = this.createRawRequest(prepayId);
+    return checkoutUrl;
   }
 
   // Helper to create order request object (same as Node.js code)
@@ -118,6 +130,7 @@ export class TelebirrService {
     return new Date().getTime().toString();
   }
 
+  /**
   private createRawRequest(prepayId: string): RawRequestDto {
     const map = {
       appid: this.merchantAppId,
@@ -135,4 +148,6 @@ export class TelebirrService {
       sign_type: 'SHA256WithRSA',
     };
   }
+
+  */
 }

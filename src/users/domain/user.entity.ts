@@ -5,6 +5,7 @@ export interface CreateUserDto {
   email: string;
   phone: string;
   password: string;
+  schoolId?: string;
 }
 
 export interface CreateUserResponseDto {
@@ -23,4 +24,5 @@ export interface User {
   email: string;
   phone: string;
   password: string;
+  schoolId: string | null;
 }

@@ -13,6 +13,7 @@ import { UsersModule } from './users/users.module';
 import { PrismaService } from './prisma.service';
 import { TelebirrModule } from './telebirr/telebirr.module';
 import { JwtService } from '@nestjs/jwt';
+import { UsersService } from './users/users.service';
 
 @Module({
   imports: [
@@ -27,6 +28,12 @@ import { JwtService } from '@nestjs/jwt';
     TelebirrModule,
   ],
   controllers: [AppController, StudentsController],
-  providers: [AppService, StudentsService, PrismaService, JwtService],
+  providers: [
+    AppService,
+    StudentsService,
+    PrismaService,
+    JwtService,
+    UsersService,
+  ],
 })
 export class AppModule {}

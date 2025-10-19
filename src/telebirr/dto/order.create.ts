@@ -10,6 +10,10 @@ export interface CreateOrderBizContent {
   timeout_express: string;
   business_type: string;
   redirect_url: string;
+  payee_identifier: string;
+  payee_identifier_type: string;
+  payee_type: string;
+  callback_info: string;
 }
 
 export interface CreateOrderRequest {

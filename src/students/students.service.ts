@@ -11,6 +11,12 @@ export class StudentsService {
     return await this.prisma.student.findMany();
   }
 
+  async getAllForSchool(schoolId: string): Promise<Student[]> {
+    return await this.prisma.student.findMany({
+      where: { schoolId },
+    });
+  }
+
   async register(student: RegisterStudentDto): Promise<Student> {
     return await this.prisma.student.create({
       data: {

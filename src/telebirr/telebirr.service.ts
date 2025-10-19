@@ -72,6 +72,8 @@ export class TelebirrService {
       ),
     );
 
+    console.log('Create Order Result:', createOrderResult);
+
     // 4️⃣ build checkout URL
 
     const checkoutUrl =
@@ -88,7 +90,7 @@ export class TelebirrService {
       createTimeStamp() +
       '&sign=' +
       createOrderResult.sign +
-      '&sign_type=SHA256WithRSA';
+      '&sign_type=SHA256WithRSA&version=1.0';
 
     // 5️⃣ Build raw request string
     // const rawRequest = this.createRawRequest(prepayId);
@@ -106,7 +108,9 @@ export class TelebirrService {
       method: 'payment.preorder',
       version: '1.0',
       biz_content: {
-        notify_url: 'https://www.google.com', // replace with your notify URL
+        notify_url:
+          'https://bitschoolpaybe-production.up.railway.app/telebirr/notify', // TODO notify URL
+        redirect_url: 'https://bitschoolpaybe-production.up.railway.app/', // TODO redirect URL
         appid: this.merchantAppId,
         merch_code: this.merchantCode,
         merch_order_id: this.createMerchantOrderId(),
@@ -116,13 +120,17 @@ export class TelebirrService {
         trans_currency: 'ETB',
         timeout_express: '120m',
         business_type: 'BuyGoods',
-        redirect_url: 'https://www.baidu.com', // replace with your redirect URL
+        payee_identifier: this.merchantCode,
+        payee_identifier_type: '04',
+        payee_type: '5000',
+        callback_info: 'From web',
       },
       sign: '',
       sign_type: 'SHA256WithRSA',
     };
 
     req.sign = signRequestObject(req); // sign the request object
+    console.log('Created Telebirr Request Object:', req);
     return req;
   }
 

@@ -18,14 +18,24 @@ export class UsersService {
   */
   async register(user: CreateUserDto): Promise<CreateUserResponseDto> {
     return await this.prisma.bitUser.create({
-      data: {
-        firstName: user.firstName,
-        middleName: user.middleName,
-        lastName: user.lastName,
-        email: user.email,
-        phone: user.phone,
-        password: hashSync(user.password, 10),
-      },
+      data: user.schoolId
+        ? {
+            firstName: user.firstName,
+            middleName: user.middleName,
+            lastName: user.lastName,
+            email: user.email,
+            phone: user.phone,
+            password: hashSync(user.password, 10),
+            schoolId: user.schoolId,
+          }
+        : {
+            firstName: user.firstName,
+            middleName: user.middleName,
+            lastName: user.lastName,
+            email: user.email,
+            phone: user.phone,
+            password: hashSync(user.password, 10),
+          },
     });
   }
 

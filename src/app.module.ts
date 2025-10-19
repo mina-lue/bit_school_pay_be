@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PrismaService } from './prisma.service';
 import { TelebirrModule } from './telebirr/telebirr.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -26,6 +27,6 @@ import { TelebirrModule } from './telebirr/telebirr.module';
     TelebirrModule,
   ],
   controllers: [AppController, StudentsController],
-  providers: [AppService, StudentsService, PrismaService],
+  providers: [AppService, StudentsService, PrismaService, JwtService],
 })
 export class AppModule {}

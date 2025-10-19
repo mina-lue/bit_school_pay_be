@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Body, Controller, Post, Request } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import { UsersService } from 'src/users/users.service';
@@ -7,6 +7,7 @@ import {
   CreateUserDto,
   CreateUserResponseDto,
 } from 'src/users/domain/user.entity';
+import { JwtRefreshGuard } from './gaurd/jwt-refresh.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -25,10 +26,9 @@ export class AuthController {
     return await this.authService.login(dto);
   }
 
-  //@UseGuards(JwtRefreshGuard)
+  @UseGuards(JwtRefreshGuard)
   @Post('refresh')
-  refreshToken(@Request() req) {
-    return this.authService.refreshToken(req.user);
-    //await return this.authService.refreshToken(req.user);
+  async refreshToken(@Request() req) {
+    return await this.authService.refreshToken(req.user);
   }
 }

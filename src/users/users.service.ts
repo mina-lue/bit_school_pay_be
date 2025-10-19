@@ -29,11 +29,9 @@ export class UsersService {
     });
   }
 
-  async finByEmail(email: string): Promise<User> {
+  async findByEmail(email: string): Promise<User> {
     return await this.prisma.bitUser.findFirstOrThrow({
-      where: {
-        email: email,
-      },
+      where: { email },
     });
   }
 }

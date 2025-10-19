@@ -17,8 +17,28 @@ export class AuthService {
     private userService: UsersService,
     private jwt: JwtService,
   ) {}
-  refreshToken(user: any) {
-    console.log(user);
+  async refreshToken(tokenPayload: { username: string; sub: string }) {
+    // tokenPayload is what you decoded/validated from the incoming refresh token
+    const payload = {
+      username: tokenPayload.username,
+      sub: tokenPayload.sub,
+    };
+
+    const accessToken = await this.jwt.signAsync(payload, {
+      secret: process.env.JWT_SECRET_KEY,
+      expiresIn: ACCESS_TOKEN_EXPIRES_IN_SEC,
+    });
+    const refreshToken = await this.jwt.signAsync(payload, {
+      secret: process.env.JWT_REFRESH_TOKEN_KEY,
+      expiresIn: REFRESH_TOKEN_EXPIRES_IN_SEC,
+    });
+    const expiresAt = Date.now() + ACCESS_TOKEN_EXPIRES_IN_SEC * 1000;
+
+    return {
+      accessToken,
+      refreshToken,
+      expiresAt,
+    };
   }
 
   async login(dto: LoginDto) {
@@ -53,7 +73,7 @@ export class AuthService {
 
   async validateUser(dto: LoginDto): Promise<LoginResponseUserDto> {
     try {
-      const user = await this.userService.finByEmail(dto.email);
+      const user = await this.userService.findByEmail(dto.email);
       if (user && (await compare(dto.password, user.password))) {
         return user;
       }

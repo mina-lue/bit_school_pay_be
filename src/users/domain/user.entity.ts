@@ -6,6 +6,7 @@ export interface CreateUserDto {
   phone: string;
   password: string;
   schoolId?: string;
+  role: 'SUPER_ADMIN' | 'ADMIN' | 'STAFF' | 'BASIC';
 }
 
 export interface CreateUserResponseDto {
@@ -14,6 +15,7 @@ export interface CreateUserResponseDto {
   lastName: string;
   email: string;
   phone: string;
+  role: 'SUPER_ADMIN' | 'ADMIN' | 'STAFF' | 'BASIC';
 }
 
 export interface User {
@@ -25,4 +27,5 @@ export interface User {
   phone: string;
   password: string;
   schoolId: string | null;
+  role: 'SUPER_ADMIN' | 'ADMIN' | 'STAFF' | 'BASIC';
 }

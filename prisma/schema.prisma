@@ -59,6 +59,13 @@ model School {
   staffs      BitUser[] @relation("StaffOfSchool")
 }
 
+enum BitUserRole {
+  SUPER_ADMIN
+  ADMIN
+  STAFF
+  BASIC
+}
+
 model BitUser {
   id          String   @id @default(uuid())
   firstName   String
@@ -66,6 +73,7 @@ model BitUser {
   lastName    String
   email       String    @unique
   phone       String
+  role        BitUserRole
   password    String
   payments    Payment[]
 

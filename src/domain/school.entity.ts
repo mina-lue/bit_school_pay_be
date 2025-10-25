@@ -6,7 +6,16 @@ export interface School {
 }
 
 export interface RegisterSchoolDto {
-  name: string;
-  email: string;
-  principalId: string;
+  school: {
+    name: string;
+    email: string;
+  };
+  principal: {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+  };
 }

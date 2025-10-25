@@ -25,6 +25,7 @@ export class UsersService {
             lastName: user.lastName,
             email: user.email,
             phone: user.phone,
+            role: user.role,
             password: hashSync(user.password, 10),
             schoolId: user.schoolId,
           }
@@ -34,6 +35,7 @@ export class UsersService {
             lastName: user.lastName,
             email: user.email,
             phone: user.phone,
+            role: user.role,
             password: hashSync(user.password, 10),
           },
     });
@@ -42,6 +44,10 @@ export class UsersService {
   async findByEmail(email: string): Promise<User> {
     return await this.prisma.bitUser.findFirstOrThrow({
       where: { email },
+      include: {
+        schoolAsPrincipal: true,
+        schoolAsStaff: true,
+      },
     });
   }
 }

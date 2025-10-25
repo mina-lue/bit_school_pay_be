@@ -1,3 +1,5 @@
+import { School } from 'src/domain/school.entity';
+
 export interface CreateUserDto {
   firstName: string;
   middleName: string;
@@ -10,6 +12,7 @@ export interface CreateUserDto {
 }
 
 export interface CreateUserResponseDto {
+  id: string;
   firstName: string;
   middleName: string;
   lastName: string;
@@ -28,4 +31,6 @@ export interface User {
   password: string;
   schoolId: string | null;
   role: 'SUPER_ADMIN' | 'ADMIN' | 'STAFF' | 'BASIC';
+  schoolAsPrincipal: School | null;
+  schoolAsStaff: School | null;
 }

@@ -34,7 +34,10 @@ export class StudentsController {
       throw new Error('User email not found in request');
     }
     const user = await this.usersService.findByEmail(req.user.username);
-    if (!user.schoolId) {
+    console.log(user);
+    if (user?.schoolAsPrincipal)
+      return this.studentService.getAllForSchool(user.schoolAsPrincipal.id);
+    else if (!user.schoolId) {
       throw new Error('Unknown User or School!');
     }
     return await this.studentService.getAllForSchool(user.schoolId);

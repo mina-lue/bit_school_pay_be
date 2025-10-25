@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Student } from 'generated/prisma';
 import { PrismaService } from 'src/prisma.service';
 import { RegisterStudentDto } from './domain/student.entity';
+import { StudentsFilter } from 'src/domain/filter.model';
 
 @Injectable()
 export class StudentsService {
@@ -11,9 +12,21 @@ export class StudentsService {
     return await this.prisma.student.findMany();
   }
 
-  async getAllForSchool(schoolId: string): Promise<Student[]> {
+  async getAllForSchool(
+    schoolId: string,
+    filter: StudentsFilter,
+  ): Promise<Student[]> {
     return await this.prisma.student.findMany({
-      where: { schoolId },
+      take: filter.size,
+      skip: (filter.page - 1) * filter.size,
+      orderBy: {
+        firstName: 'asc',
+      },
+
+      where:
+        filter.subscribed !== undefined || filter.subscribed !== null
+          ? { schoolId }
+          : { schoolId, subscribed: filter.subscribed },
     });
   }
 

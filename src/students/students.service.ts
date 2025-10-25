@@ -23,10 +23,9 @@ export class StudentsService {
         firstName: 'asc',
       },
 
-      where:
-        filter.subscribed !== undefined || filter.subscribed !== null
-          ? { schoolId }
-          : { schoolId, subscribed: filter.subscribed },
+      where: filter.subscribed
+        ? { schoolId, subscribed: filter.subscribed }
+        : { schoolId },
     });
   }
 

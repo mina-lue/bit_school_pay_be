@@ -9,33 +9,59 @@ datasource db {
 }
 
 model Student {
-  id String @id @default(uuid())
-  firstName String 
-  middleName String 
-  lastName String
-  phone String?
-  email String?
-  class String
-  grade Int
-  schoolId String
-  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
-  payments Payment[]
+  id         String    @id @default(uuid())
+  firstName  String
+  middleName String
+  lastName   String
+  phone      String?
+  email      String?
+  class      String
+  grade      Int
+  schoolId   String
   subscribed Boolean
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  payments   Payment[]
+  school     School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
 }
 
 model Payment {
-  id String @id @default(uuid())
-  type PaymentType
-  amount Int
+  id        String      @id @default(uuid())
+  type      PaymentType
+  amount    Int
   studentId String
-  payerId String
-  schoolId String 
-  school School @relation(fields: [schoolId], references: [id]) 
-  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  paidBy BitUser @relation(fields: [payerId], references: [id], onDelete: Cascade)
-  paidAt DateTime @default(now())
+  payerId   String
+  paidAt    DateTime    @default(now())
+  schoolId  String
+  paidBy    BitUser     @relation(fields: [payerId], references: [id], onDelete: Cascade)
+  school    School      @relation(fields: [schoolId], references: [id])
+  student   Student     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+model School {
+  id          String    @id @default(uuid())
+  name        String
+  email       String
+  principalId String    @unique
+  staffs      BitUser[] @relation("StaffOfSchool")
+  payments    Payment[]
+  principal   BitUser   @relation("PrincipalOfSchool", fields: [principalId], references: [id], onDelete: Cascade)
+  students    Student[]
+}
+
+model BitUser {
+  id                String    @id @default(uuid())
+  firstName         String
+  middleName        String
+  email             String
+  password          String
+  lastName          String
+  phone             String
+  role              Role   @default(BASIC)
+  schoolId          String?
+  schoolAsStaff     School?   @relation("StaffOfSchool", fields: [schoolId], references: [id])
+  payments          Payment[]
+  schoolAsPrincipal School?   @relation("PrincipalOfSchool")
 }
 
 enum PaymentType {
@@ -43,45 +69,9 @@ enum PaymentType {
   BUS_FEE
   OTHERS
 }
-
-model School {
-  id          String   @id @default(uuid())
-  name        String
-  email       String
-  students    Student[]
-  payments    Payment[]
-
-  // Principal relation (one-to-one)
-  principalId String   @unique
-  principal   BitUser  @relation("PrincipalOfSchool", fields: [principalId], references: [id], onDelete: Cascade)
-
-  // Staffs relation (one-to-many)
-  staffs      BitUser[] @relation("StaffOfSchool")
-}
-
-enum BitUserRole {
+enum Role {
   SUPER_ADMIN
   ADMIN
   STAFF
   BASIC
 }
-
-model BitUser {
-  id          String   @id @default(uuid())
-  firstName   String
-  middleName  String
-  lastName    String
-  email       String    @unique
-  phone       String
-  role        BitUserRole
-  password    String
-  payments    Payment[]
-
-  // As staff of a school
-  schoolId    String?
-  schoolAsStaff School? @relation("StaffOfSchool", fields: [schoolId], references: [id])
-
-  // As principal of a school
-  schoolAsPrincipal School? @relation("PrincipalOfSchool")
-}
-

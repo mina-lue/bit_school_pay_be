@@ -50,4 +50,14 @@ export class UsersService {
       },
     });
   }
+
+  async getMyStaffs(schoolId: string): Promise<User[]> {
+    return await this.prisma.bitUser.findMany({
+      where: { schoolId },
+      include: {
+        schoolAsPrincipal: true,
+        schoolAsStaff: true,
+      },
+    });
+  }
 }

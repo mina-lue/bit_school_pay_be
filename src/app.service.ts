@@ -33,4 +33,23 @@ export class AppService {
       },
     });
   }
+
+  async getOverallData(username: string): Promise<any> {
+    const overallData = {};
+    const admin = await this.usersService.findByEmail(username);
+    const school = admin.schoolAsPrincipal;
+    if (!school) throw new Error('School Not Found');
+    const students = this.prisma.student.count({
+      where: {
+        schoolId: {
+          equals: school.id,
+        },
+      },
+    });
+
+    overallData['admin'] = admin;
+    overallData['school'] = school;
+    overallData['students'] = students;
+    return overallData;
+  }
 }

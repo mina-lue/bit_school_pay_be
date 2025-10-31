@@ -23,8 +23,6 @@ export class AppController {
   async getAllSchools(@Req() req: Request): Promise<School[]> {
     if (!req?.user) {
       throw new Error('User not found in request');
-    } else if (req.user.role !== 'SUPER_ADMIN') {
-      throw new Error('No privilege to access schools');
     }
     return await this.appService.getSchools();
   }
@@ -41,5 +39,16 @@ export class AppController {
       throw new Error('No privilege to register schools');
     }
     return this.appService.registerSchool(school);
+  }
+
+  @Get('/dashboard')
+  @UseGuards(JwtGuard)
+  async getOverallData(@Req() req: Request): Promise<any> {
+    if (!req?.user) {
+      throw new Error('User not found in request');
+    } else if (req.user.role !== 'ADMIN') {
+      throw new Error('No privilege to access schools');
+    }
+    return await this.appService.getOverallData(req.user.username);
   }
 }

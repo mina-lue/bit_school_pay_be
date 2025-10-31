@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginDto, LoginResponseUserDto } from './dto/login.dto';
 import { UsersService } from 'src/users/users.service';
 import { compare } from 'bcrypt';
@@ -79,7 +75,7 @@ export class AuthService {
         return user;
       }
     } catch {
-      throw new NotFoundException('User Not Found');
+      throw new UnauthorizedException('Invalid credentials');
     }
     throw new UnauthorizedException('Invalid credentials');
   }
